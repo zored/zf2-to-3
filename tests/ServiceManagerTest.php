@@ -25,17 +25,24 @@ final class ServiceManagerTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        // ZF3 requires array config:
-        $config = \method_exists($config, 'toArray')
-            ? $config->toArray()
-            : $config;
+        $isZendThree = \method_exists($config, 'toArray');
 
-        $container = new ServiceManager($config);
+        $container = new ServiceManager($isZendThree ? $config->toArray() : $config);
 
-        $this->assertInstanceOf(
-            ControllerStub::class,
-            $container->get(ControllerStub::class)
-        );
+        if ($isZendThree) {
+            $this->assertInstanceOf(
+                ControllerStub::class,
+                $container->get(ControllerStub::class)
+            );
+        }
+        else{
+            try{
+                $container->get(ControllerStub::class);
+            } catch (\LogicException $exception) {
+            }
+            $this->assertTrue(isset($exception));
+        }
+
         $this->assertInstanceOf(
             ServiceFromAbstractFactoryStub::class,
             $container->get(ServiceFromAbstractFactoryStub::class)

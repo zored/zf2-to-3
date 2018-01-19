@@ -8,27 +8,26 @@ before_install:
 jobs:
   include:
     - &STANDARD_TEST_JOB
-      stage: ZF3
       php: 5.6
       install:
         - travis_retry composer update $COMPOSER_FLAGS
-        - travis_retry composer require zendframework/zend-servicemanager:^$ZF_SINCE
+        - travis_retry composer require zendframework/zend-servicemanager:^$ZF
         - composer info -D | sort
       script:
         - vendor/bin/phpunit || travis_terminate 1
         - php vendor/bin/php-cs-fixer --diff --dry-run -v fix
-      env: ZF_SINCE=2.0
+      env: ZF=2.0
 
     - <<: *STANDARD_TEST_JOB
       php: 7.1
 
     - <<: *STANDARD_TEST_JOB
-      stage: ZF2
       php: 5.6
-      env: ZF_SINCE=3.0
+      env: ZF=3.0
 
     - <<: *STANDARD_TEST_JOB
       php: 7.1
+      env: ZF=3.0
 
   allow_failures:
     - php: nightly
