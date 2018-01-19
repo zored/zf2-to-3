@@ -1,0 +1,24 @@
+{
+    "name": "zored/zf2-to-3",
+    "description": "Hacks for migrating from ZF2 to ZF3.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zored",
+            "email": "zored@zored.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ZF2TO3\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.6",
+        "zendframework/zend-servicemanager": ">=2.0.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.10"
+    }
+}
