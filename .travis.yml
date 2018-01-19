@@ -26,7 +26,7 @@ jobs:
       php: 7.1
       env: ZF=3.0
       after_success:
-        - travis_retry php vendor/bin/php-coveralls -v
+        - travis_retry php vendor/bin/php-coveralls -v || travis_terminate 1
 
   allow_failures:
     - php: nightly
