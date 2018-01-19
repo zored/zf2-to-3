@@ -2,6 +2,7 @@
 
 namespace ZF2TO3Test;
 
+use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
 use ZF2TO3\ZF2To3ControllerFactory;
 use ZF2TO3Test\Stub\AbstractFactoryStub;
@@ -14,7 +15,7 @@ final class ServiceManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testRun()
     {
-        $container = new ServiceManager([
+        $config = new Config([
             'factories' => [
                 ControllerStub::class => ZF2To3ControllerFactory::class,
                 ServiceLocatorAwareStub::class => FactoryStub::class,
@@ -23,6 +24,13 @@ final class ServiceManagerTest extends \PHPUnit_Framework_TestCase
                 AbstractFactoryStub::class
             ],
         ]);
+
+        // ZF3 requires array config:
+        $config = \method_exists($config, 'toArray')
+            ? $config->toArray()
+            : $config;
+
+        $container = new ServiceManager($config);
 
         $this->assertInstanceOf(
             ControllerStub::class,

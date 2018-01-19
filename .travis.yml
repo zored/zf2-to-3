@@ -1,35 +1,34 @@
 language: php
 sudo: false
 cache: {directories: [$HOME/.composer]}
-env:
-  global:
-    - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-progress"
-    - COMPOSER_FLAGS=""
+env: {global: [COMPOSER_FLAGS="--no-interaction --prefer-stable"]}
 before_install:
   - phpenv config-rm xdebug.ini || return 0
-  - composer global show hirak/prestissimo -q || travis_retry composer global require $DEFAULT_COMPOSER_FLAGS hirak/prestissimo
+  - composer global show hirak/prestissimo -q || travis_retry composer global require $COMPOSER_FLAGS hirak/prestissimo
 jobs:
   include:
     - &STANDARD_TEST_JOB
-      stage: Fast Test
+      stage: ZF3
       php: 5.6
       install:
-        - travis_retry composer update $DEFAULT_COMPOSER_FLAGS $COMPOSER_FLAGS
+        - travis_retry composer update $COMPOSER_FLAGS
+        - travis_retry composer require zendframework/zend-servicemanager:^$ZF_SINCE
         - composer info -D | sort
       script:
         - vendor/bin/phpunit || travis_terminate 1
         - php vendor/bin/php-cs-fixer --diff --dry-run -v fix
+      env: ZF_SINCE=2.0
+
     - <<: *STANDARD_TEST_JOB
-      stage: Test
+      php: 7.1
+
+    - <<: *STANDARD_TEST_JOB
+      stage: ZF2
       php: 5.6
-      env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
+      env: ZF_SINCE=3.0
+
     - <<: *STANDARD_TEST_JOB
-      stage: Test
       php: 7.1
-      env: COMPOSER_FLAGS=""
-    - <<: *STANDARD_TEST_JOB
-      stage: Test
-      php: 7.1
-      env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
+
   allow_failures:
     - php: nightly
