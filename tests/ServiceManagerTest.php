@@ -3,6 +3,7 @@
 namespace ZF2TO3Test;
 
 use Zend\ServiceManager\Config;
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\ServiceManager;
 use ZF2TO3\ZF2To3ControllerFactory;
 use ZF2TO3Test\Stub\AbstractFactoryStub;
@@ -38,7 +39,7 @@ final class ServiceManagerTest extends \PHPUnit_Framework_TestCase
         else{
             try{
                 $container->get(ControllerStub::class);
-            } catch (\LogicException $exception) {
+            } catch (ServiceNotCreatedException $exception) {
             }
             $this->assertTrue(isset($exception));
         }
