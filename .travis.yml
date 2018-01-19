@@ -1,6 +1,6 @@
 language: php
 sudo: false
-cache: {directories: - $HOME/.composer}
+cache: {directories: [$HOME/.composer]}
 env:
   global:
     - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-progress"
