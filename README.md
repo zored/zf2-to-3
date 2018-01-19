@@ -1,8 +1,6 @@
 # ZF2 to 3
 
 [![Build Status](https://travis-ci.org/zored/zf2-to-3.svg?branch=master)](https://travis-ci.org/zored/zf2-to-3)
-[![Coverage Status](https://coveralls.io/repos/github/zored/zf2-to-3/badge.svg?branch=master)](https://coveralls.io/github/zored/zf2-to-3?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/zored/zf2-to-3/v/stable)](https://packagist.org/packages/zored/zf2-to-3)
 
 Hacks for migrating from ZF2 to ZF3.
 
