@@ -1,11 +1,13 @@
 language: php
+php:
+  - 5.6
+  - 7.1
 sudo: false
 cache: {directories: [$HOME/.composer]}
 env: {global: [COMPOSER_FLAGS="--no-interaction --prefer-stable"]}
 jobs:
   include:
     - &STANDARD_TEST_JOB
-      php: 5.6
       install:
         - travis_retry composer update $COMPOSER_FLAGS
         - travis_retry composer require zendframework/zend-servicemanager:^$ZF $COMPOSER_FLAGS
@@ -16,17 +18,9 @@ jobs:
       env: ZF=2.0
 
     - <<: *STANDARD_TEST_JOB
-      php: 5.6
-
-    - <<: *STANDARD_TEST_JOB
-      php: 7.1
-      env: ZF=3.0
-
-    - <<: *STANDARD_TEST_JOB
-      php: 7.1
       env: ZF=3.0
       after_success:
-        - travis_retry php vendor/bin/php-coveralls -v || travis_terminate 1
+        - travis_retry php vendor/bin/php-coveralls --verbose --config=.coveralls.yml
 
   allow_failures:
     - php: nightly
